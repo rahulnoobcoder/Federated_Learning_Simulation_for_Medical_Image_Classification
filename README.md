@@ -135,10 +135,6 @@ A Streamlit-based dashboard is provided to compare predictions from the Centrali
    streamlit run app.py
    ```
 
-Dashboard runs at: **http://localhost:8501**
+Dashboard runs at: **https://fed-learn-chestxray.streamlit.app**
 
 ---
-
-## 📜 License
-
-This project is open-source and released under the **MIT License**.
