@@ -3,24 +3,22 @@
 A privacy-preserving AI system for detecting Pneumonia from Chest X-Rays using Federated Learning.  
 This project simulates a Non-IID federated environment where 5 hospitals collaboratively train a global model without sharing sensitive patient data.
 
-The project also includes a Streamlit Web Dashboard to visualize and compare predictions from the Global Model and individual Local Hospital Models.
+A Streamlit-based dashboard is provided to compare predictions from the Centralized model and Federated (hospital-level) models.
 
 ---
 
 ## 📂 Project Structure (IMPORTANT)
 
-To run the application successfully, your directory structure must look EXACTLY like this to avoid import errors:
-
 federated-medical-app/
 │
-├── 📓 Federated_Learning_Notebook.ipynb   # Run this first to train models
+├── 📓 Federated_Learning_Notebook.ipynb   # Run first to train models
 ├── 🐍 app.py                              # Streamlit web interface
-├── 🐍 model.py                            # Contains MedicalCNN class (required for loading models)
-├── 🐍 utils.py                            # Image preprocessing & utility functions
-├── 📄 requirements.txt                    # Python dependencies
-├── 📄 README.md                           # Project documentation
+├── 🐍 model.py                            # MedicalCNN definition (required)
+├── 🐍 utils.py                            # Image preprocessing utilities
+├── 📄 requirements.txt
+├── 📄 README.md
 │
-└── 📂 saved_models/                       # Auto-generated after training
+└── 📂 saved_models/                       # Auto-generated
     ├── central_model.pth
     ├── client_1_model.pth
     ├── client_2_model.pth
@@ -29,8 +27,7 @@ federated-medical-app/
     └── client_5_model.pth
 
 ⚠️ NOTE:
-model.py MUST be present in the same directory as app.py.
-The saved .pth files depend on the class definition inside model.py.
+model.py must be present in the same directory as app.py, as saved models depend on its class definition.
 
 ---
 
@@ -38,21 +35,19 @@ The saved .pth files depend on the class definition inside model.py.
 
 ### 1️⃣ Data Preprocessing & Augmentation
 
-Normalization  
-All images are normalized using standard ImageNet statistics to match the ResNet backbone:
-
+Normalization (ImageNet statistics):
 Mean: [0.485, 0.456, 0.406]  
 Std:  [0.229, 0.224, 0.225]
 
 Training Augmentations:
 - Random Horizontal Flip
-- Random Rotation (±10 degrees)
+- Random Rotation (±10°)
 
 Inference Pipeline:
-- Resize images to 224 × 224
-- Convert to PyTorch tensors
-- Apply ImageNet normalization  
-(All preprocessing logic is implemented in utils.py)
+- Resize to 224 × 224
+- Tensor conversion
+- ImageNet normalization  
+(Implemented in utils.py)
 
 ---
 
@@ -60,97 +55,81 @@ Inference Pipeline:
 
 - Algorithm: Federated Averaging (FedAvg)
 - Clients: 5 hospitals
-- Data Distribution: Non-IID (uneven class distribution across hospitals)
-- Local Training:
-  - Each client trains locally for 3 epochs per communication round
-- Communication Efficiency:
-  - Tracks theoretical communication cost for FP32 weight transfer
-  - Compares against quantized update sizes
+- Data Split: Non-IID class distribution
+- Local Training: 3 epochs per client per round
+- Central Server: Aggregates client weights per round
+- Evaluation: Centralized vs Federated performance comparison
 
 ---
 
 ### 3️⃣ Model Architecture
 
-- Backbone: ResNet18 (pretrained on ImageNet)
+- Backbone: ResNet18 (ImageNet pretrained)
 - Transfer Learning:
-  - Backbone layers are frozen to preserve learned features
-  - Reduces training time and computational cost
-- Classifier:
-  - Final Fully Connected (FC) layer replaced
-  - Binary classification: Normal vs Pneumonia
+  - Backbone frozen
+  - Only final FC layer trained
+- Task: Binary classification (Normal vs Pneumonia)
 
 ---
 
-### 4️⃣ Evaluation Metrics
+## 📊 Final Evaluation Metrics (Actual Results)
 
-The system evaluates models using:
-- Confusion Matrix (False Positives vs False Negatives)
-- Precision, Recall, F1-Score (critical for medical diagnosis)
-- Accuracy (comparison between centralized and federated models)
+### Overall Accuracy
 
----
-
-## 🛠️ Installation & Setup
-
-### 1️⃣ Clone the Repository
-
-git clone https://github.com/your-username/federated-medical-app.git  
-cd federated-medical-app
+- Centralized Model Accuracy: **0.8958**
+- Federated Model Accuracy: **0.8526**
 
 ---
 
-### 2️⃣ Install Dependencies
+### Confusion Matrix — Centralized Model (Accuracy ≈ 0.90)
 
-pip install -r requirements.txt
-
----
-
-### 3️⃣ Train the Models
-
-Open Federated_Learning_Notebook.ipynb in Jupyter Notebook or VS Code and run all cells.
-
-This will:
-- Download the Chest X-Ray dataset
-- Train a Centralized baseline model
-- Simulate Federated Learning with 5 clients
-- Save trained models into the saved_models/ directory
-
-⚠️ IMPORTANT:
-Ensure the final cell executes successfully.
-The Streamlit app depends on the saved_models directory.
+| Actual \ Predicted | Normal (0) | Pneumonia (1) |
+|-------------------|------------|---------------|
+| Normal (0)        | 184        | 50            |
+| Pneumonia (1)     | 15         | 375           |
 
 ---
 
-### 4️⃣ Run the Web Application
+### Confusion Matrix — Federated Model (Accuracy ≈ 0.85)
 
-streamlit run app.py
-
-The dashboard will launch at:
-http://localhost:8501
-
----
-
-## 🖥️ Using the Dashboard
-
-- Upload a Chest X-Ray image (JPEG or PNG)
-- The image is preprocessed using ImageNet normalization
-- Inference is run across 6 models:
-  - Centralized Model
-  - Hospital Models 1–5
-- Compare predictions to observe:
-  - Local model bias due to Non-IID data
-  - Robustness of Federated and Centralized models
+| Actual \ Predicted | Normal (0) | Pneumonia (1) |
+|-------------------|------------|---------------|
+| Normal (0)        | 147        | 87            |
+| Pneumonia (1)     | 5          | 385           |
 
 ---
 
-## 📊 Results Comparison
+### Federated Learning Convergence
 
-Feature              | Centralized Learning | Federated Learning
--------------------- | -------------------- | ------------------
-Data Privacy         | ❌ Low               | ✅ High
-Accuracy             | ~96%                 | ~94%
-Robustness           | High                 | Good (Non-IID resilient)
-Bandwidth Usage      | High (raw data)      | Low (weights only)
+- Communication Rounds: 5
+- Observations:
+  - Accuracy improves steadily until round 3
+  - Slight degradation observed in later rounds due to Non-IID client drift
+  - Federated accuracy remains close to centralized baseline despite data decentralization
+
+---
+
+## 📈 Key Insights
+
+- Federated learning achieves **~95% of centralized performance** without sharing raw medical data
+- False negatives are low in both settings, which is critical for medical diagnosis
+- Non-IID data causes mild performance drop but does not destabilize convergence
+- Demonstrates strong privacy–utility trade-off
+
+---
+
+## 🛠️ Running the Project
+
+1. Install dependencies  
+   `pip install -r requirements.txt`
+
+2. Train models  
+   Run all cells in `Federated_Learning_Notebook.ipynb`
+
+3. Launch dashboard  
+   `streamlit run app.py`
+
+Dashboard runs at: http://localhost:8501
 
 ---
 
