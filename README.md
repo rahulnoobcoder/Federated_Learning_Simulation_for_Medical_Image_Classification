@@ -1,3 +1,4 @@
+```markdown
 # 🏥 Federated Learning for Medical Imaging (Pneumonia Detection)
 
 A privacy-preserving AI system for detecting Pneumonia from Chest X-Rays using Federated Learning.  
@@ -25,10 +26,12 @@ A Streamlit-based dashboard is provided to compare predictions from the Centrali
     ├── client_2_model.pth
     ├── client_3_model.pth
     ├── client_4_model.pth
-    └── client_5_model.pth```
+    └── client_5_model.pth
+```
 
-⚠️ NOTE:
-model.py must be present in the same directory as app.py, as saved models depend on its class definition.
+> ⚠️ **NOTE**  
+> `model.py` must be present in the same directory as `app.py`,  
+> as saved models depend on its class definition.
 
 ---
 
@@ -36,49 +39,48 @@ model.py must be present in the same directory as app.py, as saved models depend
 
 ### 1️⃣ Data Preprocessing & Augmentation
 
-Normalization (ImageNet statistics):
-Mean: [0.485, 0.456, 0.406]  
-Std:  [0.229, 0.224, 0.225]
+**Normalization (ImageNet statistics)**  
+- Mean: `[0.485, 0.456, 0.406]`  
+- Std:  `[0.229, 0.224, 0.225]`
 
-Training Augmentations:
-- Random Horizontal Flip
+**Training Augmentations**
+- Random Horizontal Flip  
 - Random Rotation (±10°)
 
-Inference Pipeline:
-- Resize to 224 × 224
+**Inference Pipeline**
+- Resize to `224 × 224`
 - Tensor conversion
 - ImageNet normalization  
-(Implemented in utils.py)
+(Implemented in `utils.py`)
 
 ---
 
 ### 2️⃣ Federated Learning Architecture
 
-- Algorithm: Federated Averaging (FedAvg)
-- Clients: 5 hospitals
-- Data Split: Non-IID class distribution
-- Local Training: 3 epochs per client per round
-- Central Server: Aggregates client weights per round
-- Evaluation: Centralized vs Federated performance comparison
+- Algorithm: **Federated Averaging (FedAvg)**
+- Clients: **5 hospitals**
+- Data Split: **Non-IID class distribution**
+- Local Training: **3 epochs per client per round**
+- Central Server: **Aggregates client weights per round**
+- Evaluation: **Centralized vs Federated performance comparison**
 
 ---
 
 ### 3️⃣ Model Architecture
 
-- Backbone: ResNet18 (ImageNet pretrained)
+- Backbone: **ResNet18 (ImageNet pretrained)**
 - Transfer Learning:
   - Backbone frozen
   - Only final FC layer trained
-- Task: Binary classification (Normal vs Pneumonia)
+- Task: **Binary classification (Normal vs Pneumonia)**
 
 ---
 
 ## 📊 Final Evaluation Metrics (Actual Results)
 
 ### Overall Accuracy
-
-- Centralized Model Accuracy: **0.8958**
-- Federated Model Accuracy: **0.8526**
+- **Centralized Model Accuracy:** `0.8958`
+- **Federated Model Accuracy:** `0.8526`
 
 ---
 
@@ -102,11 +104,11 @@ Inference Pipeline:
 
 ### Federated Learning Convergence
 
-- Communication Rounds: 5
+- Communication Rounds: **5**
 - Observations:
   - Accuracy improves steadily until round 3
   - Slight degradation observed in later rounds due to Non-IID client drift
-  - Federated accuracy remains close to centralized baseline despite data decentralization
+  - Federated accuracy remains close to centralized baseline
 
 ---
 
@@ -121,19 +123,17 @@ Inference Pipeline:
 
 ## 🛠️ Running the Project
 
-1. Install dependencies  
-   `pip install -r requirements.txt`
+1. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-2. Train models  
+2. **Train models**  
    Run all cells in `Federated_Learning_Notebook.ipynb`
 
-3. Launch dashboard  
-   `streamlit run app.py`
+3. **Launch dashboard**
+   ```bash
+   streamlit run app.py
+   ```
 
-Dashboard runs at: http://localhost:8501
-
----
-
-## 📜 License
-
-This project is open-source and released under the MIT License.
+Dashboard runs at: **http://localhost:8501**
