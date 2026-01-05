@@ -25,8 +25,7 @@ A Streamlit-based dashboard is provided to compare predictions from the Centrali
     ├── client_2_model.pth
     ├── client_3_model.pth
     ├── client_4_model.pth
-    └── client_5_model.pth
-
+    └── client_5_model.pth```
 
 ⚠️ NOTE:
 model.py must be present in the same directory as app.py, as saved models depend on its class definition.
