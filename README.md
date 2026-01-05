@@ -7,7 +7,7 @@ A Streamlit-based dashboard is provided to compare predictions from the Centrali
 
 ---
 
-## 📂 Project Structure (IMPORTANT)
+"""## 📂 Project Structure (IMPORTANT)
 
 📁 federated-medical-app/
 │
@@ -24,7 +24,7 @@ A Streamlit-based dashboard is provided to compare predictions from the Centrali
     ├── client_2_model.pth
     ├── client_3_model.pth
     ├── client_4_model.pth
-    └── client_5_model.pth
+    └── client_5_model.pth"""text
 
 
 ⚠️ NOTE:
