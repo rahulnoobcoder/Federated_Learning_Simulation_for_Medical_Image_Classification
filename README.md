@@ -1,6 +1,5 @@
-```markdown
-**🏥 Federated Learning for Medical Imaging (Pneumonia Detection)
-**
+# 🏥 Federated Learning for Medical Imaging (Pneumonia Detection)
+
 A privacy-preserving AI system for detecting Pneumonia from Chest X-Rays using Federated Learning.  
 This project simulates a Non-IID federated environment where 5 hospitals collaboratively train a global model without sharing sensitive patient data.
 
@@ -137,3 +136,9 @@ A Streamlit-based dashboard is provided to compare predictions from the Centrali
    ```
 
 Dashboard runs at: **http://localhost:8501**
+
+---
+
+## 📜 License
+
+This project is open-source and released under the **MIT License**.
