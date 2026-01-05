@@ -9,7 +9,7 @@ A Streamlit-based dashboard is provided to compare predictions from the Centrali
 
 ## 📂 Project Structure (IMPORTANT)
 
-federated-medical-app/
+📁 federated-medical-app/
 │
 ├── 📓 Federated_Learning_Notebook.ipynb   # Run first to train models
 ├── 🐍 app.py                              # Streamlit web interface
@@ -18,13 +18,14 @@ federated-medical-app/
 ├── 📄 requirements.txt
 ├── 📄 README.md
 │
-└── 📂 saved_models/                       # Auto-generated
+└── 📂 saved_models/                       # Auto-generated after training
     ├── central_model.pth
     ├── client_1_model.pth
     ├── client_2_model.pth
     ├── client_3_model.pth
     ├── client_4_model.pth
     └── client_5_model.pth
+
 
 ⚠️ NOTE:
 model.py must be present in the same directory as app.py, as saved models depend on its class definition.
