@@ -7,8 +7,9 @@ A Streamlit-based dashboard is provided to compare predictions from the Centrali
 
 ---
 
-"""## 📂 Project Structure (IMPORTANT)
+## 📂 Project Structure (IMPORTANT)
 
+```text
 📁 federated-medical-app/
 │
 ├── 📓 Federated_Learning_Notebook.ipynb   # Run first to train models
@@ -24,7 +25,7 @@ A Streamlit-based dashboard is provided to compare predictions from the Centrali
     ├── client_2_model.pth
     ├── client_3_model.pth
     ├── client_4_model.pth
-    └── client_5_model.pth"""text
+    └── client_5_model.pth
 
 
 ⚠️ NOTE:
